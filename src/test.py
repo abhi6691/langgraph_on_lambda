@@ -6,9 +6,19 @@ def invoke_lambda_with_response_stream(function_name):
 
     lambda_client = boto3.client('lambda')
 
+    event_payload = {
+        "inputs": {
+            "messages": "What's the weather in Redmond like today?"
+        },
+        "config": {
+            "thread_id": "123"
+        }
+    }
+
     response = lambda_client.invoke_with_response_stream(
         FunctionName=function_name,
-        InvocationType='RequestResponse'
+        InvocationType='RequestResponse',
+        Payload=json.dumps(event_payload).encode('utf-8')
     )
 
     if 'EventStream' in response:

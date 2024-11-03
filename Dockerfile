@@ -35,6 +35,7 @@ RUN chmod +x ${LAMBDA_RUNTIME_DIR}/bootstrap
 
 # requirements.txt
 COPY requirements.txt ${LAMBDA_TASK_ROOT}/requirements.txt
+COPY src/ ${LAMBDA_TASK_ROOT}
 RUN python3.11 -m pip install -r ${LAMBDA_TASK_ROOT}/requirements.txt -t ${LAMBDA_TASK_ROOT}/ 
 
 # Copy function code

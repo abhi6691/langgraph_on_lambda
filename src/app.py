@@ -1,4 +1,5 @@
 from datetime import datetime
+import time
 from langgraph.graph import END, StateGraph, START, MessagesState
 from langchain_openai import ChatOpenAI
 import os
@@ -18,7 +19,7 @@ def create_graph():
     def current_time_node(state: MessagesState):
         # Get the current time in the user's timezone
         user_time = datetime.now()
-        
+        time.sleep(5)
         # Determine the greeting based on the hour
         hour = user_time.hour
         if 5 <= hour < 12:

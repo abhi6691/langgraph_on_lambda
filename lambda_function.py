@@ -1,27 +1,21 @@
 #! /usr/bin/env python
 
-import json, boto3
-from typing import Generator
-import time
+import json
 
-client = boto3.client("bedrock-runtime")
+from aws_lambda_powertools import Logger
 
-def generate_stream() -> Generator[str, None, None]:
-    """
-    Generator function that yields dummy data in chunks,
-    simulating a streaming response.
-    """
-    yield "Starting the stream...\n"
-    time.sleep(1)
-    
-    for i in range(1, 6):
-        yield f"Chunk {i}: Here's some data!\n"
-        time.sleep(1)  # Simulate processing time
-    
-    yield "Stream complete!\n"
+from custom_app import CustomLanggraphApp
+
+logger = Logger(service="handler")
+
+app_instance = CustomLanggraphApp()
+
+# Initialize the application on the first load
+app_instance.initialize()
 
 def handler(event, context):
-    for response in generate_stream():
+    for response in app_instance.stream(event, context):
+        logger.info(f"Response: {response}")
         yield json.dumps({"output": response}) + "\n"
  
 
