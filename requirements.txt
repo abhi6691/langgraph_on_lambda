@@ -3,3 +3,5 @@ langchain
 langgraph
 aws-lambda-powertools
 awslambdaric
+requests
+boto3
